@@ -6,3 +6,5 @@ source ./.venv/bin/activate
 docker build -t chatbot-backend -f Dockerfile .
 docker tag chatbot-backend rhymtestacr001.azurecr.io/chatbot-backend:1.0.0
 docker push rhymtestacr001.azurecr.io/chatbot-backend:1.0.0
+
+#git push origin main
