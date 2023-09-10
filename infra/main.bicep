@@ -611,10 +611,13 @@ module backendImage 'core/host/container-image.bicep' = {
     userIdentityName: userIdentityNameVar
     tags: tags
     containerRegistryName: containerRegistry.outputs.name
-    contextPath: ''
-    dockerfilePath: './app/backend/Dockerfile'
+    contextPath: './app/backend'
+    dockerfilePath: 'Dockerfile'
     imageName: backendImageName
-    imageRepositoryUrl: ''
+    imageVersion: backendImageVersion
+    githubRepoUrl: 'https://github.com/Trhymond/retail-chatboat'
+    githubToken: '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'
+    githubBranch: 'main'
   }
   dependsOn:[
     userIdentity
