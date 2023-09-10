@@ -6,7 +6,10 @@ param dockerfilePath string
 param containerRegistryName string
 param userIdentityName string
 param imageName string
-param imageRepositoryUrl string
+param imageVersion string = '1.0.0'
+param githubRepoUrl string
+param githubToken string
+param githubBranch string
 
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' existing = {
   name: containerRegistryName
@@ -31,25 +34,23 @@ resource acrTask 'Microsoft.ContainerRegistry/registries/tasks@2019-06-01-previe
     }
     step:{
       type: 'Docker'
+      contextPath: contextPath 
       dockerFilePath: dockerfilePath
-      imageNames:[ imageName]
+      imageNames:[ '${containerRegistry.properties.loginServer}/${imageName}:${imageVersion}']
       isPushEnabled: true 
       noCache: true 
-      contextPath: contextPath 
-      arguments: []
-      contextAccessToken: ''
     }
     trigger:{
        sourceTriggers: [
         {
           name: 'trigger1'
           sourceRepository: {
-            repositoryUrl: imageRepositoryUrl
+            repositoryUrl: githubRepoUrl
             sourceControlType: 'Github'
-            branch: 'main'
+            branch: githubBranch
             sourceControlAuthProperties: {
               tokenType: 'PAT'
-              token: ''
+              token: githubToken
             }
           }
           sourceTriggerEvents:  [

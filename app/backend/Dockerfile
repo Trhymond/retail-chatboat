@@ -15,6 +15,5 @@ COPY ./src /app
 WORKDIR /app
 
 EXPOSE 80
-EXPOSE 443
 
 CMD ["/start.sh"]
