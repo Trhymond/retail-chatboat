@@ -1,0 +1,148 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": {
+      "value": "${AZURE_ENV_NAME}"
+    },
+    "location": {
+      "value": "${AZURE_LOCATION}"
+    },
+    "namePrefix": {
+      "value": "${AZURE_NAME_PREFIX}"
+    },
+    "tags": {
+      "value": {
+        "owner": "Tomy Rhymond",
+        "delete": false,
+        "environment": "dev",
+        "application": "openai-search poc",
+        "market": "cmh"
+      }
+    },
+    "servicePrincipalObjectId": {
+      "value": "${AZURE_SERVICEPRINCIPAL_OBJECTID}"
+    },
+    "resourceGroupName": {
+      "value": "${AZURE_RESOURCE_GROUP}"
+    },
+    "vnetName": {
+      "value": "${AZURE_VNET_NAME}"
+    },
+    "vnetAddressPrefix": {
+      "value": "${AZURE_VNET_ADDRESS_PREFIX}"
+    },
+    "firewallSubnetAddressPrefix": {
+      "value": "${AZURE_FIREWALL_SUBNET_ADDRESS_PREFIX}"
+    },
+    "firewallManagementSubnetAddressPrefix": {
+      "value": "${AZURE_FIREWALL_MGMT_SUBNET_ADDRESS_PREFIX}"
+    },
+    "containerSubnetAddressPrefix": {
+      "value": "${AZURE_CONTAINER_SUBNET_ADDRESS_PREFIX}"
+    },
+    "privateEndpointSubnetAddressPrefix": {
+      "value": "${AZURE_PRIV_SUBNET_ADDRESS_PREFIX}"
+    },
+    "nsgName": {
+      "value": "${AZURE_NSG_NAME}"
+    },
+    "storageAccountName": {
+      "value": "${AZURE_STORAGE_ACCOUNT}"
+    },
+    "storageAccessTier": {
+      "value": "Hot"
+    },
+    "storageSkuName": {
+      "value": "Standard_LRS"
+    },
+    "storageContainerName": {
+      "value": "content"
+    },
+    "keyVaultName": {
+      "value": "${AZURE_KEY_VAULT}"
+    },
+    "keyvaultSkuName": {
+      "value": "standard"
+    },
+    "logAnalyticsWorkspaceName": {
+      "value": "${AZURE_LOG_ANALYTICS_WORKSPACE}"
+    },
+    "logAnalyticsSkuName": {
+      "value": "PerGB2018"
+    },
+    "appinsightsName": {
+      "value": "${AZURE_APPINSIGHTS}"
+    },
+    "searchServiceName": {
+      "value": "${AZURE_SEARCH_SERVICE}"
+    },
+    "searchServiceSkuName": {
+      "value": "standard"
+    },
+    "searchIndexName": {
+      "value": "gptkbindex"
+    },
+    "kbFieldContent": {
+      "value": "${KB_FIELDS_CONTENT}"
+    },
+    "kbFieldSourcePage": {
+      "value": "${KB_FIELDS_SOURCEPAGE}"
+    },
+    "formRecognizerServiceName": {
+      "value": "${AZURE_FORM_RECOGNIZER_SERVICE}"
+    },
+    "formRecognizerSkuName": {
+      "value": "S0"
+    },
+    "openAiServiceName": {
+      "value": "${AZURE_OPENAI_SERVICE}"
+    },
+    "openAiSkuName": {
+      "value": "S0"
+    },
+    "gptDeploymentName": {
+      "value": "text_completions"
+    },
+    "gptEmbeddingDeploymentName": {
+      "value": "embeddings"
+    },
+    "gptModelDeployments": {
+      "value": [
+        {
+          "name": "text_completions",
+          "modelName": "gpt-35-turbo",
+          "version": "0613",
+          "capacity": 30
+        },
+        {
+          "name": "embeddings",
+          "modelName": "text-embedding-ada-002",
+          "version": "2",
+          "capacity": 30
+        }
+      ]
+    },
+    "userIdentityName": {
+      "value": "${USER_IDENTITY_NAME}"
+    },
+    "containerRegistryName": {
+      "value": "${AZURE_CONTAINER_REGISTRY_SERVICE}"
+    },
+    "containerAppEnvName": {
+      "value": "${AZURE_CONTAINER_APP_ENV}"
+    },
+    "backendImageName": {
+      "value": "${BACKEND_IMAGE_NAME}"
+    },
+    "backendImageversion": {
+      "value": "${BACKEND_IMAGE_VERSION}"
+    },
+    "frontendImageName": {
+      "value": "${FRONTEND_IMAGE_NAME}"
+    },
+    "frontendImageversion": {
+      "value": "${FRONTEND_IMAGE_VERSION}"
+    }
+  }
+}

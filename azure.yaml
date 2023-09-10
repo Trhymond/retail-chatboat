@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: azure-openai-poc
+metadata:
+  template: azure-openai-poc@0.0.1
+infra:
+  provider: bicep
+  path: infra
+  module: main
+
+services:
+  backend:
+    project: ./app/backend
+    language: python
+    host: containerapp
+    docker:
+      path: ../Dockerfile
+      context: ../
+
+  frontend:
+    language: js
+    project: ./app/frontend
+    host: containerapp
+    docker:
+      path: ../Dockerfile
+      context: ../
+    hooks:
+      prepackage:
+        posix:
+          shell: sh
+          run: npm install; npm run build
+          interactive: true
+          continueOnError: false
+
+      predeploy:
+        posix:
+          shell: sh
+          run: ../frontend_env.sh ${BACKEND_URI} ${BACKEND_KEY}
+          interactive: true
+          continueOnError: false
+
+hooks:
+  postprovision:
+    windows:
+      shell: pwsh
+      run: ./scripts/prepdocs.ps1
+      interactive: true
+      continueOnError: false
+    posix:
+      shell: sh
+      run: ./scripts/prepdocs.sh
+      interactive: true
+      continueOnError: false
+  # postdeploy:
+  #   posix:
+  #     shell: sh
+  #     run: ./scripts/appconfig.sh
+  #     interactive: true
+  #     continueOnError: false
+
+pipeline:
+  provider: github
