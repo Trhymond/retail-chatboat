@@ -8,7 +8,6 @@ RUN apt-get update && \
 
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-RUN source /opt/venv/bin/activate
 
 COPY ./app/backend/requirements.txt /tmp/requirements.txt
 RUN /opt/venv/python -m pip install --no-cache-dir -r /tmp/requirements.txt
