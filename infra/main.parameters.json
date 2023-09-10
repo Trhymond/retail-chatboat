@@ -143,6 +143,12 @@
     },
     "frontendImageversion": {
       "value": "${FRONTEND_IMAGE_VERSION}"
+    },
+    "gitRepoUrl": { 
+      "value": "${GIT_REPO_URL}"
+    },
+    "gitToken": { 
+      "value": "${GIT_TOKEN}"
     }
   }
 }

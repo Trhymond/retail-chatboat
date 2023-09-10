@@ -153,6 +153,12 @@ param secrets array = []
 @description('Specifies if the resource is external')
 param external bool = false
 
+@description('The git repo url')
+param gitRepoUrl string 
+
+@description('The git token')
+param gitToken string 
+
 // Variables
 var locationShortNameVar = 'eus'
 var resourceGroupNameVar = empty(resourceGroupName) ? 'rg-${namePrefix}-${environmentName}-${locationShortNameVar}' : resourceGroupName
@@ -198,7 +204,7 @@ module userIdentity 'core/security/user-identity.bicep' = {
     location:  location
   }
 }
-
+/*
 module network 'core/network/network.bicep' = {
   name: 'network-module'
   scope: resourceGroup
@@ -571,6 +577,7 @@ module containerAppsEnvironment 'core/host/container-apps-environment.bicep' = {
     network
   ]
 }
+*/
 
 module containerRegistry 'core/host/container-registry.bicep' = {
   name: 'container-registry-module'
@@ -581,10 +588,10 @@ module containerRegistry 'core/host/container-registry.bicep' = {
     tags: tags
   }
   dependsOn: [ 
-    network
+    // network
   ]
 }
-
+/*
 module privateEndpointContainerRegistry 'core/network/private-endpoint.bicep' = {
   name: 'containerRegistry-pe-module'
   scope: resourceGroup
@@ -602,7 +609,7 @@ module privateEndpointContainerRegistry 'core/network/private-endpoint.bicep' = 
     containerRegistry
   ]
 }
-
+*/
 module backendImage 'core/host/container-image.bicep' = {
   name: 'backend-image-module'
   scope: resourceGroup
@@ -611,12 +618,11 @@ module backendImage 'core/host/container-image.bicep' = {
     userIdentityName: userIdentityNameVar
     tags: tags
     containerRegistryName: containerRegistry.outputs.name
-    contextPath: './app/backend'
-    dockerfilePath: 'Dockerfile'
+    dockerfilePath: './app/backend/Dockerfile'
     imageName: backendImageName
     imageVersion: backendImageVersion
-    githubRepoUrl: 'https://github.com/Trhymond/retail-chatboat'
-    githubToken: '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'
+    githubRepoUrl: gitRepoUrl
+    githubToken: gitToken
     githubBranch: 'main'
   }
   dependsOn:[

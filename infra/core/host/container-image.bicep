@@ -1,7 +1,6 @@
 
 param location string = resourceGroup().location
 param tags object = {}
-param contextPath string
 param dockerfilePath string
 param containerRegistryName string
 param userIdentityName string
@@ -31,21 +30,31 @@ resource acrTask 'Microsoft.ContainerRegistry/registries/tasks@2019-06-01-previe
   properties: {
     platform: {
       os: 'Linux'
+      architecture: 'amd64'
+    }
+    agentConfiguration: {
+      cpu: 2
     }
     step:{
       type: 'Docker'
-      contextPath: contextPath 
+      contextPath: '${githubRepoUrl}#${githubBranch}'
       dockerFilePath: dockerfilePath
       imageNames:[ '${containerRegistry.properties.loginServer}/${imageName}:${imageVersion}']
       isPushEnabled: true 
-      noCache: true 
+      noCache: false 
+      arguments: []
     }
+    timeout: 3600
     trigger:{
+      baseImageTrigger: { 
+        baseImageTriggerType: 'Runtime'
+        name: 'defaultBaseimageTriggerName'
+      }
        sourceTriggers: [
         {
-          name: 'trigger1'
+          name: 'defaultSourceTriggerName'
           sourceRepository: {
-            repositoryUrl: githubRepoUrl
+            repositoryUrl: '${githubRepoUrl}#${githubBranch}'
             sourceControlType: 'Github'
             branch: githubBranch
             sourceControlAuthProperties: {
