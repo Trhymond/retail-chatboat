@@ -19,7 +19,7 @@ resource userIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-
 }
 
 resource acrTask 'Microsoft.ContainerRegistry/registries/tasks@2019-06-01-preview' = {
-  name: 'build-${imageName}-${imageVersion}'
+  name: 'build_${imageName}_${imageVersion}'
   parent: containerRegistry
   location: location
   tags: tags
