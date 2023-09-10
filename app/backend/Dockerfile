@@ -6,11 +6,11 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gcc
 
-RUN python -m venv /opt/venv
+RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 COPY ./app/backend/requirements.txt /tmp/requirements.txt
-RUN /opt/venv/python -m pip install --no-cache-dir -r /tmp/requirements.txt
+RUN /opt/venv/python3 -m pip install --no-cache-dir -r /tmp/requirements.txt
 
 COPY ./app/backend/start.sh /start.sh
 RUN chmod +x /start.sh
