@@ -1,23 +1,27 @@
 FROM python:3.11.5-bullseye
 
-RUN pip install --upgrade pip
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-RUN adduser -D myuser
-USER myuser
-WORKDIR /home/myuser
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc
 
-COPY --chown=myuser:myuser ./app/backend/requirements.txt /tmp/requirements.txt
-RUN pip install --user --no-cache-dir -r /tmp/requirements.txt
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN source /opt/venv/bin/activate
 
-COPY --chown=myuser:myuser ./app/backend/start.sh /start.sh
+COPY ./app/backend/requirements.txt /tmp/requirements.txt
+RUN /opt/venv/python -m pip install --no-cache-dir -r /tmp/requirements.txt
+
+COPY ./app/backend/start.sh /start.sh
 RUN chmod +x /start.sh
 
-COPY --chown=myuser:myuser ./app/backend/gunicorn.conf.py /gunicorn.conf.py
+COPY ./app/backend/gunicorn.conf.py /gunicorn.conf.py
 
-COPY --chown=myuser:myuser ./app/backend/start-reload.sh /start-reload.sh
+COPY ./app/backend/start-reload.sh /start-reload.sh
 RUN chmod +x /start-reload.sh
 
-COPY --chown=myuser:myuser ./app/backend/src /app
+COPY ./app/backend/src /app
 WORKDIR /app
 
 EXPOSE 80
