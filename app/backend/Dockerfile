@@ -1,17 +1,23 @@
 FROM python:3.11.5-bullseye
 
-COPY ./app/backend/requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+RUN pip install --upgrade pip
 
-COPY ./app/backend/start.sh /start.sh
+RUN adduser -D myuser
+USER myuser
+WORKDIR /home/myuser
+
+COPY --chown=myuser:myuser ./app/backend/requirements.txt /tmp/requirements.txt
+RUN pip install --user --no-cache-dir -r /tmp/requirements.txt
+
+COPY --chown=myuser:myuser ./app/backend/start.sh /start.sh
 RUN chmod +x /start.sh
 
-COPY ./app/backend/gunicorn.conf.py /gunicorn.conf.py
+COPY --chown=myuser:myuser ./app/backend/gunicorn.conf.py /gunicorn.conf.py
 
-COPY ./app/backend/start-reload.sh /start-reload.sh
+COPY --chown=myuser:myuser ./app/backend/start-reload.sh /start-reload.sh
 RUN chmod +x /start-reload.sh
 
-COPY ./app/backend/src /app
+COPY --chown=myuser:myuser ./app/backend/src /app
 WORKDIR /app
 
 EXPOSE 80
