@@ -127,7 +127,7 @@
       "value": "${USER_IDENTITY_NAME}"
     },
     "containerRegistryName": {
-      "value": "${AZURE_CONTAINER_REGISTRY_SERVICE}"
+      "value": "${AZURE_CONTAINER_REGISTRY}"
     },
     "containerAppEnvName": {
       "value": "${AZURE_CONTAINER_APP_ENV}"
@@ -135,19 +135,19 @@
     "backendImageName": {
       "value": "${BACKEND_IMAGE_NAME}"
     },
-    "backendImageversion": {
+    "backendImageVersion": {
       "value": "${BACKEND_IMAGE_VERSION}"
     },
     "frontendImageName": {
       "value": "${FRONTEND_IMAGE_NAME}"
     },
-    "frontendImageversion": {
+    "frontendImageVersion": {
       "value": "${FRONTEND_IMAGE_VERSION}"
     },
-    "gitRepoUrl": { 
+    "gitRepoUrl": {
       "value": "${GIT_REPO_URL}"
     },
-    "gitToken": { 
+    "gitToken": {
       "value": "${GIT_TOKEN}"
     }
   }

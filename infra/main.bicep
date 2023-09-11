@@ -103,10 +103,10 @@ param gptEmbeddingDeploymentName string = 'embeddings'
 param gptModelDeployments array = []
 
 @description('The user identity name')
-param userIdentityName string 
+param userIdentityName string
 
 @description('The container registry name')
-param containerRegistryName string 
+param containerRegistryName string
 
 @description('The container managed environment name')
 param containerAppEnvName string
@@ -136,16 +136,16 @@ param daprEnabled bool = false
 param daprAppId string = 'dapr-backend'
 
 @description('The name of the container image for python backend')
-param backendImageName string = 'chatbot-backend'
+param backendImageName string
 
 @description('The version of the backend container image')
-param backendImageVersion string = '1.0.0'
+param backendImageVersion string
 
 @description('The name of the container image for node frontend')
-param frontendImageName string = 'chatbot-frontend'
+param frontendImageName string
 
 @description('The version of the frontend container image')
-param frontendImageversion string = '1.0.0'
+param frontendImageVersion string
 
 @description('The secrets required for the container')
 param secrets array = []
@@ -154,10 +154,10 @@ param secrets array = []
 param external bool = false
 
 @description('The git repo url')
-param gitRepoUrl string 
+param gitRepoUrl string
 
 @description('The git token')
-param gitToken string 
+param gitToken string
 
 // Variables
 var locationShortNameVar = 'eus'
@@ -195,13 +195,12 @@ var userIdentityNameVar = empty(userIdentityName) ? first(filter(azname.outputs.
 var vnetNameVar = empty(vnetName) ? first(filter(azname.outputs.resourceNames, item => item.resourceType == 'virtual_network')).resourceName : vnetName
 var nsgNameVar = empty(nsgName) ? first(filter(azname.outputs.resourceNames, item => item.resourceType == 'network_security_group')).resourceName : nsgName
 
-
 module userIdentity 'core/security/user-identity.bicep' = {
   name: 'userIdentity-module'
   scope: resourceGroup
-  params:{
+  params: {
     name: userIdentityNameVar
-    location:  location
+    location: location
   }
 }
 /*
@@ -588,7 +587,7 @@ module containerRegistry 'core/host/container-registry.bicep' = {
     tags: tags
     userIdentityName: userIdentityNameVar
   }
-  dependsOn: [ 
+  dependsOn: [
     // network
   ]
 }
@@ -626,7 +625,7 @@ module backendImage 'core/host/container-image.bicep' = {
     githubToken: gitToken
     githubBranch: 'main'
   }
-  dependsOn:[
+  dependsOn: [
     userIdentity
     containerRegistry
   ]
@@ -958,6 +957,7 @@ module keyvaultRoleUser 'core/security/role-assignment.bicep' = {
 //     backend
 //   ]
 // }
+*/
 
 // Outputs
 output AZURE_LOCATION string = location
@@ -976,7 +976,8 @@ output AZURE_OPENAI_SERVICE string = openAiServiceNameVar
 output AZURE_OPENAI_GPT_DEPLOYMENT string = gptDeploymentName
 output AZURE_OPENAI_GPT_EMBEDDING_DEPLOYMENT string = gptEmbeddingDeploymentName
 output AZURE_SEARCH_INDEX string = searchIndexName
+output AZURE_CONTAINER_REGISTRY string = containerRegistryNameVar
+output AZURE_CONTAINER_APP_ENV string = containerAppEnvNameVar
+output USER_IDENTITY_NAME string = userIdentityNameVar
 output FRONTEND_URI string = ''
 output BACKEND_URI string = ''
-output AZD_RESOURCES_CREATED string = 'true'
-*/
