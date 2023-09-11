@@ -586,6 +586,7 @@ module containerRegistry 'core/host/container-registry.bicep' = {
     name: containerRegistryNameVar
     location: location
     tags: tags
+    userIdentityName: userIdentityNameVar
   }
   dependsOn: [ 
     // network

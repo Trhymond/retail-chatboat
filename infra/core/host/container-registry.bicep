@@ -1,5 +1,5 @@
-@minLength(3)
-@maxLength(256)
+@minLength(5)
+@maxLength(50)
 param name string
 param location string = resourceGroup().location
 param tags object = {}
@@ -35,6 +35,13 @@ param zoneRedundancy string = 'Disabled'
 @description('The log analytics workspace ID used for logging and monitoring')
 param workspaceId string = ''
 
+@description('The name of the user-assigned identity')
+param userIdentityName string
+
+resource userIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
+  name: userIdentityName
+}
+
 // 2022-02-01-preview needed for anonymousPullEnabled
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
   name: name
@@ -49,6 +56,18 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2022-02-01-pr
     networkRuleBypassOptions: networkRuleBypassOptions
     publicNetworkAccess: publicNetworkAccess
     zoneRedundancy: zoneRedundancy
+  }
+}
+
+module containerRegistryAccess '../security/registry-access.bicep' = {
+  name: 'container-app-registry-access'
+  params: {
+    containerRegistryName: name
+    principalId: userIdentity.properties.principalId
+    roles: [
+      'pull'
+      'push'
+    ]
   }
 }
 

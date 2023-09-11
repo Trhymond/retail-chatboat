@@ -72,19 +72,18 @@ resource userIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-
   name: userIdentityName
 }
 
-module containerRegistryAccess '../security/registry-access.bicep' = {
-  name: 'container-app-registry-access'
-  params: {
-    containerRegistryName: containerRegistryName
-    principalId: userIdentity.properties.principalId
-  }
-}
+// module containerRegistryAccess '../security/registry-access.bicep' = {
+//   name: 'container-app-registry-access'
+//   params: {
+//     containerRegistryName: containerRegistryName
+//     principalId: userIdentity.properties.principalId
+//   }
+// }
 
 resource app 'Microsoft.App/containerApps@2022-06-01-preview' = {
   name: name
   location: location
-  tags: tags
-  dependsOn: [ containerRegistryAccess ]  
+  tags: tags 
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities:  { '${userIdentity.id}': {} }
